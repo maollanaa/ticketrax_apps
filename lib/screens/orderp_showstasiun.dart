@@ -50,7 +50,7 @@ class _ShowStasiunAwalState extends State<ShowStasiunAwal> {
         title: TextField(
           controller: _searchController,
           decoration: InputDecoration(
-            hintText: 'Cari Stasiun...',
+            hintText: 'Cari Stasiun Awal...',
             border: InputBorder.none,
           ),
         ),

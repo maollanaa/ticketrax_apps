@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'register_page.dart';
-import '../ui/homepage.dart';
+import '../screens/homepage.dart';
 import '../data/user_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

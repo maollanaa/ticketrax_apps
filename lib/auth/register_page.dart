@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import '../ui/homepage.dart';
+import '../screens/homepage.dart';
 import '../data/user_data.dart';
 
 class RegisterPage extends StatefulWidget {
