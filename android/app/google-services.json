@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "256686066254",
+    "project_id": "ticketrax",
+    "storage_bucket": "ticketrax.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256686066254:android:c9deb0468fa640eeccd11f",
+        "android_client_info": {
+          "package_name": "com.example.ticketrax_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwF2IoWjzv4DBuAbw71de0E8WJB4yILNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
