@@ -1,6 +1,8 @@
+// screens/orderp_setschedule.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'orderp_showstasiun.dart';  // pastikan path ini sesuai
+import 'orderp_showstasiun.dart';
+import 'orderp_showtrip.dart';  // pastikan path ini sesuai
 
 class OrderScheduleSet extends StatefulWidget {
   final String? destination;
@@ -64,6 +66,17 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
           _destinationController.text = result['nama'];
         }
       });
+    }
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderShowTrip(),
+        ),
+      );
     }
   }
 
@@ -166,11 +179,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                               ),
                               SizedBox(height: 32),
                               ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState?.validate() ?? false) {
-                                    // Logika untuk tombol submit
-                                  }
-                                },
+                                onPressed: _submitForm,
                                 child: Text(
                                   'CARI TIKET KERETA API',
                                   style: TextStyle(
