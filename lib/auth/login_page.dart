@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// pake firebase
+// pake
 // // login_page.dart
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
