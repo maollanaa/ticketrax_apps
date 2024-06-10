@@ -1,9 +1,11 @@
-// apps/ordersechedule_set.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'orderp_showstasiun.dart';  // pastikan path ini sesuai
 
 class OrderScheduleSet extends StatefulWidget {
-  const OrderScheduleSet({Key? key}) : super(key: key);
+  final String? destination;
+
+  const OrderScheduleSet({Key? key, this.destination}) : super(key: key);
 
   @override
   _OrderScheduleSetState createState() => _OrderScheduleSetState();
@@ -21,7 +23,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
   void initState() {
     super.initState();
     _originController.text = '';
-    _destinationController.text = '';
+    _destinationController.text = widget.destination ?? '';
   }
 
   void _swapStations() {
@@ -47,6 +49,24 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
     }
   }
 
+  Future<void> _selectStation(bool isOrigin) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => isOrigin ? ShowStasiunAwal() : ShowStasiunTujuan(),
+      ),
+    );
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        if (isOrigin) {
+          _originController.text = result['nama'];
+        } else {
+          _destinationController.text = result['nama'];
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +83,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                 child: Card(
                   elevation: 4.0,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0), 
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -75,8 +95,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                               TextFormField(
                                 controller: _originController,
                                 readOnly: true,
-                                decoration:
-                                    InputDecoration(labelText: 'Stasiun Asal'),
+                                decoration: InputDecoration(labelText: 'Stasiun Asal'),
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Mohon isi stasiun asal';
@@ -84,7 +103,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                                   return null;
                                 },
                                 onTap: () {
-                                  // Navigate to another screen to select station
+                                  _selectStation(true);
                                 },
                               ),
                               SizedBox(height: 8),
@@ -102,8 +121,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                               TextFormField(
                                 controller: _destinationController,
                                 readOnly: true,
-                                decoration: InputDecoration(
-                                    labelText: 'Stasiun Tujuan'),
+                                decoration: InputDecoration(labelText: 'Stasiun Tujuan'),
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
                                     return 'Mohon isi stasiun tujuan';
@@ -111,7 +129,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                                   return null;
                                 },
                                 onTap: () {
-                                  // Navigate to another screen to select station
+                                  _selectStation(false);
                                 },
                               ),
                               SizedBox(height: 32),
@@ -134,8 +152,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                               SizedBox(height: 32),
                               TextFormField(
                                 controller: _passengerController,
-                                decoration: InputDecoration(
-                                    labelText: 'Jumlah Penumpang (Dewasa)'),
+                                decoration: InputDecoration(labelText: 'Jumlah Penumpang (Dewasa)'),
                                 keyboardType: TextInputType.number,
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
@@ -150,8 +167,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                               SizedBox(height: 32),
                               ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState?.validate() ??
-                                      false) {
+                                  if (_formKey.currentState?.validate() ?? false) {
                                     // Logika untuk tombol submit
                                   }
                                 },
