@@ -29,7 +29,6 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Theme(
               data: Theme.of(context).copyWith(
                 inputDecorationTheme: InputDecorationTheme(
-                  labelStyle: TextStyle(fontFamily: 'Poppins'),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xFF797EF6)),
                   ),
@@ -157,18 +156,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         }
                       },
                       child: Text(
-                      'Daftar',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white, // Warna teks
+                        'Daftar',
+                        style: TextStyle(
+                          color: Colors.white, // Warna teks
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 20), // Atur tinggi tombol di sini
+                        backgroundColor: Color(0xFF797EF6), // Warna tombol
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20), // Atur tinggi tombol di sini
-                      backgroundColor: Color(0xFF797EF6), // Warna tombol
-                    ),
-                  ),
                     SizedBox(height: 12),
                     TextButton(
                       onPressed: () {

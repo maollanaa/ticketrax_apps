@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'register_page.dart';
 import '../screens/homepage.dart';
 import '../data/user_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Theme(
             data: Theme.of(context).copyWith(
               inputDecorationTheme: InputDecorationTheme(
-                labelStyle: TextStyle(fontFamily: 'Poppins'),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xFF797EF6)),
                 ),
@@ -125,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       'Masuk',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
                         color: Colors.white, // Warna teks
                       ),
                     ),

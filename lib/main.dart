@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ticketrax_apps/splash_n_welcome.dart';
 import 'firebase_options.dart';
 import 'auth/login_page.dart';
+import 'splash_n_welcome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,14 +20,11 @@ class TicketTrax extends StatelessWidget {
     return MaterialApp(
       title: 'TICKETRAX',
       theme: ThemeData(
-        textTheme: TextTheme(
-          bodyMedium: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-          ),
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
         ),
       ),
-      home: LoginPage(),
+      home: Splash(),
     );
   }
 }
