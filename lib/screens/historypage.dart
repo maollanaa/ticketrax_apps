@@ -6,12 +6,28 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Riwayat'),
-      ),
-      body: Center(
-        child: const Text('Halaman Riwayat'),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Riwayat'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Semua'),
+              Tab(text: 'Aktif'),
+              Tab(text: 'Selesai'),
+              Tab(text: 'Dibatalkan'),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            Center(child: Text('Semua Riwayat')),
+            Center(child: Text('Riwayat Aktif')),
+            Center(child: Text('Riwayat Selesai')),
+            Center(child: Text('Riwayat Dibatalkan')),
+          ],
+        ),
       ),
     );
   }
