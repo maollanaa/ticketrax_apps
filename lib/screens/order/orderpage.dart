@@ -1,4 +1,4 @@
-// screens/orderpage.dart
+// orderpage.dart
 import 'package:flutter/material.dart';
 import 'orderp_setschedule.dart'; // Import halaman tujuan
 
@@ -40,11 +40,13 @@ class OrderPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            // Judul untuk bagian tujuan populer
             Text(
               'Tujuan Populer',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.0),
+            // ListView untuk menampilkan kartu tujuan populer
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -52,6 +54,7 @@ class OrderPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final destination = popularDestinations[index];
                 return GestureDetector(
+                  // Aksi ketika kartu tujuan ditekan
                   onTap: () {
                     Navigator.push(
                       context,
@@ -61,8 +64,9 @@ class OrderPage extends StatelessWidget {
                       ),
                     );
                   },
+                  // Kartu tujuan
                   child: Container(
-                    height: 200.0, // Set maximum height for the card
+                    height: 200.0, // Tinggi maksimal untuk kartu
                     child: Card(
                       margin: EdgeInsets.only(bottom: 16.0),
                       shape: RoundedRectangleBorder(
@@ -71,15 +75,17 @@ class OrderPage extends StatelessWidget {
                       elevation: 4.0,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            12.0), // Gunakan border radius yang sama dengan card
+                            12.0), // Gunakan border radius yang sama dengan kartu
                         child: Stack(
                           children: [
+                            // Gambar tujuan
                             Positioned.fill(
                               child: Image.network(
                                 destination['image']!,
                                 fit: BoxFit.cover,
                               ),
                             ),
+                            // Nama kota tujuan di atas gambar
                             Positioned(
                               top: 8.0,
                               right: 8.0,
@@ -106,6 +112,7 @@ class OrderPage extends StatelessWidget {
           ],
         ),
       ),
+      // Tombol untuk menambahkan jadwal
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -113,10 +120,10 @@ class OrderPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => OrderScheduleSet()),
           );
         },
-        child: Icon(Icons.add, color: Colors.white), // Set icon color to white
-        backgroundColor: Color(0xFF797EF6),
-        foregroundColor: Colors.white, // Set button color to white
-        shape: CircleBorder(), // Make button round
+        child: Icon(Icons.add, color: Colors.white), // Warna ikon putih
+        backgroundColor: Color(0xFF797EF6), // Warna latar tombol
+        foregroundColor: Colors.white, // Warna tombol putih
+        shape: CircleBorder(), // Membuat tombol berbentuk lingkaran
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

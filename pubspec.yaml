@@ -17,16 +17,24 @@ dev_dependencies:
   http: ^1.2.1
   firebase_core: ^3.0.0
   cloud_firestore: ^5.0.0
+  firebase_storage: ^12.0.1
   uuid: ^4.4.0
   intl: ^0.19.0
   page_transition: ^2.0.9
   google_fonts: ^5.1.0
+  url_launcher: ^6.3.0
+  lottie: ^3.1.2
+  image_picker: ^1.1.2
+  path: ^1.9.0
+  path_provider: ^2.1.3
+
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/logo.png
+    - assets/logo2.png
     - assets/default_profile.png
     - assets/anggi.jpg
     - assets/rakha.jpg
@@ -35,4 +43,5 @@ flutter:
     - assets/pd_surabaya.jpg
     - assets/pd_yogyakarta.jpg
     - assets/pd_semarang.jpg
+    - assets/success.json
 

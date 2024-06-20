@@ -2,8 +2,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
-import '../screens/homepage.dart';
-import '../data/user_data.dart';
+import '../screens/home/homepage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'logged_in_user.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -18,6 +19,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
+  String _phoneNum = '';
+  String _gender = 'Laki-laki';
+  DateTime _birthDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: <Widget>[
                     Image.asset(
                       'assets/logo.png',
-                      height: 100,
+                      height: 150,
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 28),
                     TextFormField(
                       cursorColor: Color(0xFF797EF6),
                       decoration: InputDecoration(
@@ -75,6 +79,41 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) {
                         _email = value!;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      cursorColor: Color(0xFF797EF6),
+                      decoration: InputDecoration(
+                        labelText: 'Nomor Telepon',
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Nomor Telepon tidak boleh kosong';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _phoneNum = value!;
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: _gender,
+                      decoration: InputDecoration(
+                        labelText: 'Jenis Kelamin',
+                      ),
+                      items: <String>['Laki-laki', 'Perempuan']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _gender = newValue!;
+                        });
                       },
                     ),
                     SizedBox(height: 16),
@@ -142,17 +181,34 @@ class _RegisterPageState extends State<RegisterPage> {
                         _confirmPassword = value;
                       },
                     ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      readOnly: true,
+                      cursorColor: Color(0xFF797EF6),
+                      decoration: InputDecoration(
+                        labelText: 'Tanggal Lahir',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.calendar_today),
+                          onPressed: () {
+                            _selectDate(context);
+                          },
+                        ),
+                      ),
+                      controller: TextEditingController(
+                        text: _birthDate == DateTime.now()
+                            ? 'Pilih Tanggal Lahir'
+                            : '${_birthDate.toLocal()}'.split(' ')[0],
+                      ),
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                    ),
                     SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
                           _registerUser();
-                          // Navigasi ke halaman utama
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => inApps()),
-                          );
                         }
                       },
                       child: Text(
@@ -190,18 +246,46 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _registerUser() {
-    User newUser = User(
-      name: _fullName,
-      phoneNumber: '',
-      email: _email,
-      birthDate: DateTime.now(),
-      gender: '',
-      password: _password,
-      profileImage: '',
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _birthDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
     );
-    // users.add(newUser);
-    LoggedInUser.user =
-        newUser; // Simpan informasi pengguna yang baru terdaftar
+    if (picked != null && picked != _birthDate)
+      setState(() {
+        _birthDate = picked;
+      });
+  }
+
+  void _registerUser() async {
+    // Add the user data to Firestore
+    await FirebaseFirestore.instance.collection('users').add({
+      'fullName': _fullName,
+      'email': _email,
+      'password': _password,
+      'phoneNum': _phoneNum,
+      'gender': _gender,
+      'birthDate': _birthDate,
+      'profileImage': ''
+
+    });
+
+    // Save user data to LoggedInUser
+    final loggedInUser = LoggedInUser();
+    loggedInUser.fullName = _fullName;
+    loggedInUser.email = _email;
+    loggedInUser.phoneNum = _phoneNum;
+    loggedInUser.profileImage = ''; // Add if necessary
+    loggedInUser.gender = _gender;
+    loggedInUser.birthDate = _birthDate;
+    
+
+    // Navigate to the homepage
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => inApps()),
+    );
   }
 }

@@ -2,13 +2,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TripDB {
-  final CollectionReference _tripCollection =
+  final CollectionReference tripCollection =
       FirebaseFirestore.instance.collection('trip');
 
-  // Fetch all stations
+  // Fetch all trips
   Future<List<Map<String, dynamic>>> getTripList() async {
     try {
-      QuerySnapshot querySnapshot = await _tripCollection.get();
+      QuerySnapshot querySnapshot = await tripCollection.get();
       return querySnapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();

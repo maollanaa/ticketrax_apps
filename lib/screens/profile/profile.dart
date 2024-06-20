@@ -1,13 +1,19 @@
 // screens/profilepage.dart
 import 'package:flutter/material.dart';
-import '../data/user_data.dart';
+import 'package:ticketrax_apps/screens/profile/profile_edit.dart';
+import '../../auth/logged_in_user.dart';
+import 'package:ticketrax_apps/screens/profile/profile_changepassword.dart';
+import 'package:ticketrax_apps/screens/profile/profile_faqTT.dart';
+import 'package:ticketrax_apps/splash_n_welcome.dart';
+import 'package:ticketrax_apps/screens/profile/profile_developer.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final user = LoggedInUser.user;
+    final loggedInUser = LoggedInUser(); // Mendapatkan instance dari LoggedInUser
+
     return Scaffold(
       body: Stack(
         children: [
@@ -34,8 +40,7 @@ class ProfilePage extends StatelessWidget {
               children: [
                 Card(
                   color: Colors.white,
-                  margin: const EdgeInsets.only(
-                      left: 2.0, right: 2.0, top: 16.0, bottom: 16.0),
+                  margin: const EdgeInsets.symmetric(vertical: 16.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     side: BorderSide(
@@ -52,7 +57,9 @@ class ProfilePage extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 50,
                             backgroundImage: AssetImage(
-                              user?.profileImage ?? 'assets/default_profile.png',
+                              loggedInUser.profileImage.isNotEmpty
+                                  ? loggedInUser.profileImage
+                                  : 'assets/default_profile.png', // Gambar default jika tidak ada gambar profil
                             ),
                           ),
                         ),
@@ -63,7 +70,9 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  user?.name ?? 'Guest',
+                                  loggedInUser.fullName.isNotEmpty
+                                      ? loggedInUser.fullName
+                                      : 'Guest', // Nama default jika tidak ada nama pengguna
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -80,22 +89,21 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(height: 12),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // Aksi saat tombol "Edit Profile" ditekan
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfileEdit()),
+                                    ); // Navigasi ke halaman edit profil
                                   },
                                   style: ButtonStyle(
-                                    textStyle: MaterialStateProperty.all<TextStyle>(
-                                      TextStyle(
-                                        color: Color(0xFF797EF6),
-                                        fontSize: 16,
-                                      ),
-                                    ),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Colors.white),
                                     foregroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Color(0xFF797EF6)),
-                                    padding: MaterialStateProperty.all<EdgeInsets>(
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
                                       EdgeInsets.symmetric(
                                           vertical: 12, horizontal: 24),
                                     ),
@@ -104,7 +112,7 @@ class ProfilePage extends StatelessWidget {
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                         side: BorderSide(
-                                            color:Color(0xFF797EF6), width: 1),
+                                            color: Color(0xFF797EF6), width: 1),
                                       ),
                                     ),
                                   ),
@@ -122,14 +130,21 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.lock,
                   text: 'Ganti Password',
                   onTap: () {
-                    // Aksi saat menu "Ganti Password" ditekan
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChangePassword()),
+                    ); // Navigasi ke halaman ganti password
                   },
                 ),
                 MenuCard(
                   icon: Icons.help,
                   text: 'FAQ',
                   onTap: () {
-                    // Aksi saat menu "FAQ" ditekan
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FAQPage()),
+                    ); // Navigasi ke halaman FAQ
                   },
                 ),
                 MenuCard(
@@ -143,14 +158,31 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.person,
                   text: 'Profil Developer',
                   onTap: () {
-                    // Aksi saat menu "Profil Developer" ditekan
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileDeveloperScreen()),
+                    ); // Navigasi ke halaman profil developer
                   },
                 ),
                 MenuCard(
                   icon: Icons.logout,
                   text: 'Log Out',
                   onTap: () {
-                    // Aksi saat menu "Log Out" ditekan
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Logout berhasil',
+                          style: TextStyle(color: Color(0xFF797EF6)), // warna teks
+                        ),
+                        duration: Duration(seconds: 2), // durasi tampilan snackbar
+                        backgroundColor: Colors.white, // warna background snackbar
+                      ),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Splash()),
+                    ); // Navigasi ke halaman splash setelah logout
                   },
                   iconColor: Colors.red,
                   textColor: Colors.red,
@@ -164,6 +196,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+// Kelas MenuCard digunakan untuk menampilkan kartu menu di halaman profil
 class MenuCard extends StatelessWidget {
   final IconData icon;
   final String text;
@@ -197,7 +230,7 @@ class MenuCard extends StatelessWidget {
           text,
           style: TextStyle(color: textColor ?? Colors.black),
         ),
-        onTap: onTap,
+        onTap: onTap, // Aksi saat kartu menu ditekan
       ),
     );
   }

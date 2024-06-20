@@ -18,7 +18,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
   TextEditingController _dateController = TextEditingController(
-      text: DateFormat('dd-MM-yyyy').format(DateTime.now()));
+      text: DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(DateTime.now()));
   TextEditingController _passengerController = TextEditingController();
 
   @override
@@ -28,6 +28,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
     _destinationController.text = widget.destination ?? '';
   }
 
+  // Fungsi untuk menukar nilai stasiun asal dan tujuan
   void _swapStations() {
     String temp = _originController.text;
     setState(() {
@@ -36,6 +37,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
     });
   }
 
+  // Fungsi untuk memilih tanggal keberangkatan
   Future<void> _selectDate(BuildContext context) async {
     DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -46,11 +48,12 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
 
     if (selectedDate != null) {
       setState(() {
-        _dateController.text = DateFormat('dd-MM-yyyy').format(selectedDate);
+        _dateController.text = DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(selectedDate);
       });
     }
   }
 
+  // Fungsi untuk memilih stasiun
   Future<void> _selectStation(bool isOrigin) async {
     final result = await Navigator.push(
       context,
@@ -69,12 +72,18 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
     }
   }
 
+  // Fungsi untuk submit form
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OrderShowTrip(),
+          builder: (context) => OrderShowTrip(
+            origin: _originController.text,
+            destination: _destinationController.text,
+            date: _dateController.text,
+            passengerCount: _passengerController.text,
+          ),
         ),
       );
     }
@@ -84,8 +93,28 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pesan Tiket'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF797EF6), Colors.purple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Text(
+          'Pesan Tiket',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Warna tombol kembali
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,7 +125,7 @@ class _OrderScheduleSetState extends State<OrderScheduleSet> {
                 child: Card(
                   elevation: 4.0,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0), 
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

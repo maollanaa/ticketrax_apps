@@ -1,4 +1,3 @@
-// kereta_db.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class KeretaDB {
@@ -14,6 +13,27 @@ class KeretaDB {
           .toList();
     } catch (e) {
       print("Error fetching kereta: $e");
+      return [];
+    }
+  }
+
+  // Fetch and filter kereta based on origin and destination
+  Future<List<Map<String, dynamic>>> getFilteredKeretaList(
+    String origin,
+    String destination,
+  ) async {
+    try {
+      QuerySnapshot querySnapshot = await _keretaCollection.get();
+      return querySnapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .where((kereta) =>
+              (kereta['stasiun_awal'] == origin ||
+                  kereta['kota_awal'] == origin) &&
+              (kereta['stasiun_akhir'] == destination ||
+                  kereta['kota_akhir'] == destination))
+          .toList();
+    } catch (e) {
+      print("Error fetching filtered kereta: $e");
       return [];
     }
   }

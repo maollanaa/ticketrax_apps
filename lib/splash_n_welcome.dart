@@ -4,14 +4,15 @@ import 'dart:async';
 import 'auth/login_page.dart';
 import 'auth/register_page.dart';
 
+// Kelas Splash yang menampilkan layar splash selama 3 detik sebelum beralih ke halaman Welcome
 class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Timer untuk menunggu selama 3 detik sebelum pindah ke halaman Welcome
+    // Timer untuk menunggu selama 3 detik sebelum beralih ke halaman Welcome
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         PageTransition(
-          type: PageTransitionType.fade, // Atur jenis transisi di sini
+          type: PageTransitionType.fade, // Transisi halaman dengan efek fade
           child: Welcome(),
         ),
       );
@@ -22,9 +23,9 @@ class Splash extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.blue, // Warna pertama
-              Colors.purple, // Warna kedua
-              Colors.red, // Warna ketiga
+              Colors.blue,
+              Colors.purple,
+              Colors.red,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -32,9 +33,9 @@ class Splash extends StatelessWidget {
         ),
         child: Center(
           child: Image.asset(
-            'assets/logo.png',
-            width: 240.0, // Lebar yang diinginkan
-            height: 240.0, // Tinggi yang diinginkan
+            'assets/logo2.png',
+            width: 240.0,
+            height: 240.0,
           ),
         ),
       ),
@@ -42,73 +43,109 @@ class Splash extends StatelessWidget {
   }
 }
 
+// Kelas Welcome yang menampilkan halaman selamat datang dengan opsi untuk login atau register
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Spacer(), // Spacer untuk mendorong konten ke bawah
-          Center(
-            child: Text(
-              'Welcome Page',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.purple, Colors.red],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
-                  },
-                  child: Text(
-                    'Masuk',
-                    style: TextStyle(
-                      color: Colors.white, // Warna teks
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Spacer(), // Spacer untuk memberikan ruang kosong di atas
+            Text(
+              'Selamat Datang!',
+              style: TextStyle(
+                fontSize: 36.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              'Ayo Mulai Perjalananmu!',
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.white70,
+              ),
+            ),
+            Spacer(), // Spacer untuk memberikan ruang kosong di bawah teks
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Navigasi ke halaman LoginPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Text(
+                      'Masuk',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      backgroundColor: Color(0xFF0072ff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 20), // Atur tinggi tombol di sini
-                    backgroundColor: Color(0xFF797EF6), // Warna tombol
-                  ),
-                ),
-                SizedBox(height: 8.0), // Jarak antara dua tombol
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterPage()),
-                        );
-                  },
-                  child: Text(
-                    'Daftar',
-                    style: TextStyle(
-                      color: Color(0xFF797EF6), // Warna teks
+                  SizedBox(height: 16.0),
+                  OutlinedButton(
+                    onPressed: () {
+                      // Navigasi ke halaman RegisterPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterPage()),
+                      );
+                    },
+                    child: Text(
+                      'Daftar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      side: BorderSide(color: Colors.white),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 20), // Atur tinggi tombol di sini
-                    side: BorderSide(color: Color(0xFF797EF6)), // Warna border
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+            Spacer(), // Spacer untuk memberikan ruang kosong di bawah tombol
+            Text(
+              '© 2024 TickeTrax',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14.0,
+              ),
+            ),
+            SizedBox(height: 16.0),
+          ],
+        ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Splash(),
-  ));
 }

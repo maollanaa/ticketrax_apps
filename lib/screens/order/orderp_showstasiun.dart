@@ -1,6 +1,6 @@
 // screens/orderp_showstasiun.dart
 import 'package:flutter/material.dart';
-import '../data/stasiun_db.dart';
+import '../../data/stasiun_db.dart';
 
 class ShowStasiunAwal extends StatefulWidget {
   @override
@@ -13,15 +13,26 @@ class _ShowStasiunAwalState extends State<ShowStasiunAwal> {
   List<Map<String, dynamic>> _filteredStasiunList = [];
   TextEditingController _searchController = TextEditingController();
 
+  // Daftar stasiun statis untuk ditampilkan
+  final List<Map<String, dynamic>> _staticStasiunList = [
+    {'nama': 'JAKARTA', 'kota': 'JAKARTA'},
+    {'nama': 'BANDUNG', 'kota': 'BANDUNG'},
+    {'nama': 'YOGYAKARTA', 'kota': 'YOGYAKARTA'},
+    {'nama': 'SEMARANG', 'kota': 'SEMARANG'},
+    {'nama': 'SURABAYA', 'kota': 'SURABAYA'},
+  ];
+
   @override
   void initState() {
     super.initState();
-    _stasiunFuture = _stasiunDB.getStasiunList();
+    _stasiunFuture = _stasiunDB.getStasiunList().then((list) {
+      return _staticStasiunList + List<Map<String, dynamic>>.from(list);
+    });
     _searchController.addListener(_onSearchChanged);
   }
 
+  // Fungsi untuk menangani perubahan pencarian
   void _onSearchChanged() {
-    if (_stasiunFuture == null) return;
     _stasiunFuture.then((list) {
       setState(() {
         _filteredStasiunList = list
@@ -109,15 +120,26 @@ class _ShowStasiunTujuanState extends State<ShowStasiunTujuan> {
   List<Map<String, dynamic>> _filteredStasiunList = [];
   TextEditingController _searchController = TextEditingController();
 
+  // Daftar stasiun statis untuk ditampilkan
+  final List<Map<String, dynamic>> _staticStasiunList = [
+    {'nama': 'JAKARTA', 'kota': 'JAKARTA'},
+    {'nama': 'BANDUNG', 'kota': 'BANDUNG'},
+    {'nama': 'YOGYAKARTA', 'kota': 'YOGYAKARTA'},
+    {'nama': 'SEMARANG', 'kota': 'SEMARANG'},
+    {'nama': 'SURABAYA', 'kota': 'SURABAYA'},
+  ];
+
   @override
   void initState() {
     super.initState();
-    _stasiunFuture = _stasiunDB.getStasiunList();
+    _stasiunFuture = _stasiunDB.getStasiunList().then((list) {
+      return _staticStasiunList + List<Map<String, dynamic>>.from(list);
+    });
     _searchController.addListener(_onSearchChanged);
   }
 
+  // Fungsi untuk menangani perubahan pencarian
   void _onSearchChanged() {
-    if (_stasiunFuture == null) return;
     _stasiunFuture.then((list) {
       setState(() {
         _filteredStasiunList = list
